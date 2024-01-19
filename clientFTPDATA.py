@@ -36,8 +36,8 @@ def handle_connection(client_socket):
         print(f"Datos recibidos: {data.decode('utf-8')}")
 
         # Envía una respuesta al cliente
-        response = "Hola, cliente. ¡Conexión exitosa!"
-        client_socket.send(response.encode('utf-8'))
+        #response = "Hola, cliente. ¡Conexión exitosa!"
+        #client_socket.send(response.encode('utf-8'))
 
     except Exception as e:
         print(f"Error en la conexión: {e}")
