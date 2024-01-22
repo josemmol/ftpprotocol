@@ -11,10 +11,10 @@ def get_address_ip():
         address_ip = socket.gethostbyname(host_name)
         # Busca la primera interfície conectada a la xarxa local i obté la seva adreça IP
         address_ip = None
-        for interface, address in interfaces_net.items():
-            for direccion in address:
-                if direccion.family == socket.AF_INET and not direccion.address.startswith("127."):
-                    address_ip = direccion.address
+        for interface, list_address in interfaces_net.items():
+            for i_address in list_address:
+                if i_address.family == socket.AF_INET and not i_address.address.startswith("127."):
+                    address_ip = i_address.address
                     break
             if address_ip:
                 break
