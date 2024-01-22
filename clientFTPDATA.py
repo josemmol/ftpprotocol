@@ -33,7 +33,7 @@ def main():
     address_ip = get_address_ip()
     # Configura el host y el port
     host = address_ip  # Pots cambiar-ho amb l'adreça IP del teu ordinador
-    port = 40000 
+    port = 32768 
 
     # Crea un objete socket
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
