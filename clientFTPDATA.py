@@ -5,14 +5,14 @@ def get_address_ip():
     try:
         # Obté el nom del host
         host_name = socket.gethostname()
-        interfaces_de_red = psutil.net_if_addrs()
+        interfaces_net = psutil.net_if_addrs()
 
         # Obté l'adreça IP asociada al nom del host
         address_ip = socket.gethostbyname(host_name)
-        # Busca la primera interfaz que esté conectada a la red local y obtiene su dirección IP
+        # Busca la primera interfície conectada a la xarxa local i obté la seva adreça IP
         address_ip = None
-        for interface, direcciones in interfaces_de_red.items():
-            for direccion in direcciones:
+        for interface, address in interfaces_net.items():
+            for direccion in address:
                 if direccion.family == socket.AF_INET and not direccion.address.startswith("127."):
                     address_ip = direccion.address
                     break
@@ -20,9 +20,9 @@ def get_address_ip():
                 break
 
         if address_ip:
-            print(f"La dirección IP de la interfaz de red conectada a la red local es: {address_ip}")
+            print(f"L'adreça IP de la interfíce de xarxa conectada a la xarxa local es: {address_ip}")
         else:
-            print("No se encontró una interfaz de red conectada a la red local.")
+            print("No s'ha trobat una interfície de xarxa conectada a la xarxa local.")
 
         return address_ip 
 
@@ -31,48 +31,48 @@ def get_address_ip():
 
 def main():
     address_ip = get_address_ip()
-    # Configura el host y el puerto
-    host = address_ip  # Puedes cambiarlo por la dirección IP de tu máquina
+    # Configura el host y el port
+    host = address_ip  # Pots cambiar-ho amb l'adreça IP del teu ordinador
     port = 40000 
 
-    # Crea un objeto socket
+    # Crea un objete socket
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     try:
-        # Vincula el socket al host y puerto especificados
+        # Vincula el socket al host i port especificats
         server_socket.bind((host, port))
 
-        # Escucha las conexiones entrantes (máximo 1 conexión en la cola)
+        # Esccolta les conexions entrants (máxim 1 conexión a la cua)
         server_socket.listen(1)
-        print(f"Servidor escuchando en {host}:{port}")
+        print(f"Servidor escoltant a {host}:{port}")
 
-        # Acepta la conexión entrante
+        # Acepta la conexió entrant
         client_socket, client_address = server_socket.accept()
-        print(f"Conexión aceptada desde {client_address}")
+        print(f"Conexió aceptada des de {client_address}")
 
-        # Maneja la conexión
+        # Maneja la conexió
         handle_connection(client_socket)
 
     except Exception as e:
         print(f"Error: {e}")
     finally:
-        # Cierra el socket del servidor
+        # Tanca el socket del servidor
         server_socket.close()
 
 def handle_connection(client_socket):
     try:
-        # Recibe datos del cliente
+        # Reb les dades del client
         data = client_socket.recv(1024)
-        print(f"Datos recibidos: {data.decode('utf-8')}")
+        print(f"Dades rebudes: {data.decode('utf-8')}")
 
-        # Envía una respuesta al cliente
-        #response = "Hola, cliente. ¡Conexión exitosa!"
+        # Envía una resposta al cliente
+        #response = "Hola, client. ¡La Conexió és un exit!"
         #client_socket.send(response.encode('utf-8'))
 
     except Exception as e:
-        print(f"Error en la conexión: {e}")
+        print(f"Error en la conexió: {e}")
     finally:
-        # Cierra el socket del cliente
+        # Tanca el socket del client
         client_socket.close()
 
 if __name__ == "__main__":
